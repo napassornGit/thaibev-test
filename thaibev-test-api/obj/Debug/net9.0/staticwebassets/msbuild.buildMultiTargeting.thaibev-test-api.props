@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\thaibev-test-api.props" />
+</Project>
