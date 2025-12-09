@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using thaibev_test_api.Services;
+using thaibev_test_api.Models;
 
 namespace thaibev_test_api.Controllers;
 
@@ -10,8 +11,18 @@ public class ProductController(IProductService service) : ControllerBase
 {
     private readonly IProductService _service = service;
 
-    [HttpGet]
+    [HttpGet("GetAllProduct")]
     public async Task<IActionResult> GetAllProduct()
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _service.GetAllProduct(); 
+        return Ok(result);
+    }
+
+    [HttpPost("CreateProduct")]
+    public async Task<IActionResult> CreateProduct(Product data)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

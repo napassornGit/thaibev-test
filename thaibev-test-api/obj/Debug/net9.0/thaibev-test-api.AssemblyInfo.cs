@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("thaibev-test-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+85df57e43733139bf506f7f46ab609c033c33da9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a77f1925a6509cee74947e9f5fb9f7965177a563")]
 [assembly: System.Reflection.AssemblyProductAttribute("thaibev-test-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("thaibev-test-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
