@@ -1,15 +1,20 @@
-<p>product works!</p>
 <div class="p-3">
     <div class="card">
         <div class="card-body">
-            <div class="row p-5 align-items-center justify-content-center" [formGroup]="productForm">
+            <div class="row p-5 g-3 align-items-center justify-content-center" [formGroup]="productForm" >
                 <div class="col-12 col-md-1">
                     <label for="code" class="col-form-label">รหัสสินค้า</label>
                 </div>
                 <div class="col-12 col-md-6">
-                    <input type="text" class="form-control" placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" formControlName="code" (input)="onInputCode()">
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx" 
+                    formControlName="code" 
+                    (input)="onInputCode()"
+                    (keyup.enter)="onAddProduct()">
                     @if (productForm.get('code')?.invalid && productForm.get('code')?.touched) {
-                        <div class="text-danger mt-1">รหัสสินค้าไม่ถูกต้อง</div>
+                        <div class="text-danger mt-1">รูปแบบรหัสสินค้าไม่ถูกต้อง</div>
                     }
                 </div>
                 <div class="col-12 col-md-1">
@@ -23,24 +28,24 @@
                         <thead class="table-thead">
                             <tr>
                                 <th>Id</th>
-                                <th>รหัสสินค้า (36 หลัก)</th>
+                                <th>รหัสสินค้า (30 หลัก)</th>
                                 <th>View</th>
                                 <th>Delete</th>                        
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                @for (item of productList; track $index) {
-                                    <td>{{ item.id }}</td>
+                            @for (item of productList; track $index) {
+                                <tr>
+                                    <td class="text-center">{{ item.id }}</td>
                                     <td>{{ item.code }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-view" (click)="onViewProduct()">QR</button>
+                                        <button type="button" class="btn btn-view col-12" (click)="onViewProduct(item)">QR</button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-delete" (click)="onDeleteProduct(item)">ลบ</button>
+                                        <button type="button" class="btn btn-delete col-12" (click)="onDeleteProduct(item)">ลบ</button>
                                     </td>
+                                </tr>
                                 }
-                            </tr>
                         </tbody>
                     </table>
                 </div>

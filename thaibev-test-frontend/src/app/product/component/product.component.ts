@@ -5,6 +5,8 @@ import { ProductService } from "../service/product.service";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
+import { QrModalComponent } from "../../qr-modal/qr-modal.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-product',
@@ -17,6 +19,7 @@ export class ProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
+    private modalService: NgbModal,
     private confirmDialogService: ConfirmationDialogService
   ) {}
 
@@ -29,16 +32,6 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.productFormGroup();
     this.onSearchProduct();
-    // this.productService.getAllProduct().subscribe({
-    //   next: (data) => {
-    //     // this.products = data;
-    //     this.loading = false;
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //     this.loading = false;
-    //   }
-    // });
   }
 
   ngOnDestroy() : void {
@@ -52,7 +45,7 @@ export class ProductComponent implements OnInit {
       code: new FormControl('', [
         Validators.required, 
         Validators.pattern(/^[A-Z0-9]{5}(-[A-Z0-9]{5}){5}$/),
-        Validators.maxLength(36)
+        Validators.maxLength(35)
       ])
     });
   }
@@ -63,8 +56,6 @@ export class ProductComponent implements OnInit {
     .subscribe({
       next: (resp: productResponse) => {
         this.productList = resp.data;
-        // if (resp.result) alert('เรียกข้อมูลสินค้าสำเร็จ จำนวน ' + this.productList.length + ' รายการ');
-        // else alert('เรียกข้อมูลสินค้าสำเร็จ จำนวน ' + this.productList.length + ' รายการ');
       },
       error: (err) => {
         console.error(err);
@@ -79,7 +70,7 @@ export class ProductComponent implements OnInit {
     let value: string = codeControl.value || '';
 
     //ตัดตัวอักษรที่ไม่ได้อยู่ใน pattern
-     value = value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 36);
+     value = value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 35);
 
     //auto dash
     value = Array.from(value.matchAll(/.{1,5}/g)).map(m => m[0]).join('-');
@@ -98,7 +89,8 @@ export class ProductComponent implements OnInit {
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next : (resp: productResponse) => {
-        alert(resp.message);
+        if (!resp.result) alert(resp.message);
+        else this.productForm.reset();
         this.onSearchProduct();
       },
       error: (err) => {
@@ -107,15 +99,16 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  onViewProduct() : void {
-
+  onViewProduct(item: product) : void {
+    const modalRef = this.modalService.open(QrModalComponent, {size: 'sm', backdrop: 'static', keyboard: false});
+    modalRef.componentInstance.data = item;
   }
 
   onDeleteProduct(item: product) : void {
     this.confirmDialogService.confirm('ต้องการลบข้อมูล รหัสสินค้า ' + item.code + ' หรือไม่ ?')
     .then((comfirmed) => {
       if (comfirmed) {
-        this.productService.deleteProduct(this.product)
+        this.productService.deleteProduct(item.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next : (resp: productResponse) => {

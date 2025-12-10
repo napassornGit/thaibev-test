@@ -11,16 +11,14 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getAllProduct(): Observable<productResponse> {
-    console.log(environment.serverUrl + 'GetAllProduct');
-    
     return this.http.get<productResponse>(environment.serverUrl + 'GetAllProduct');
   }
 
   addProduct(data: product) : Observable<productResponse> {
-    return this.http.post<productResponse>(environment.serverUrl + 'CreateProduct', {product: data});
+    return this.http.post<productResponse>(environment.serverUrl + 'CreateProduct', data);
   }
 
-  deleteProduct(data: product) : Observable<productResponse> {
-    return this.http.post<productResponse>(environment.serverUrl + 'DeleteProduct', {product: data});
+  deleteProduct(productId: number) : Observable<productResponse> {
+    return this.http.post<productResponse>(environment.serverUrl + 'DeleteProduct?productId=' + productId, {});
   }
 }
