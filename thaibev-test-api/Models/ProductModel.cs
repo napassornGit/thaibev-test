@@ -6,6 +6,7 @@ public class Product
     public string code { get; set; } = string.Empty;
     public DateTime create_at { get; set; }
     public string create_by { get; set; } = string.Empty;
+    public int is_active { get; set; }
 }
 
 public class ProductResponse {

@@ -27,7 +27,17 @@ public class ProductController(IProductService service) : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _service.GetAllProduct(); 
+        var result = await _service.CreateStudyPeriod(data); 
+        return Ok(result);
+    }
+
+    [HttpPost("DeleteProduct")]
+    public async Task<IActionResult> DeleteProduct(Product data)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _service.DeleteProduct(data); 
         return Ok(result);
     }
 }
