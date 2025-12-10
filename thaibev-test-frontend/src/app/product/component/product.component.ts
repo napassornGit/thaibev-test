@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { product, productResponse } from "../model/productModel";
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ProductService } from "../service/product.service";
@@ -8,7 +8,8 @@ import { ConfirmationDialogService } from "../../confirmation-dialog/confirmatio
 
 @Component({
     selector: 'app-product',
-    imports: [CommonModule, ReactiveFormsModule],
+    standalone: true,
+    imports: [ReactiveFormsModule],
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss']
 })
