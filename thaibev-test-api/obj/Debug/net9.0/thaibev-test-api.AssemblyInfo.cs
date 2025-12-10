@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("thaibev-test-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db0e1e4de86079819f6548372c7af348806be1cd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b3682b49db9c0563639ca7267f34189f4d90444")]
 [assembly: System.Reflection.AssemblyProductAttribute("thaibev-test-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("thaibev-test-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
