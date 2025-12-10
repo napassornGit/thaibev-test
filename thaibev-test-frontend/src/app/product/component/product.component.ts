@@ -7,11 +7,10 @@ import { Subject, takeUntil } from "rxjs";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 
 @Component({
-  selector: 'app-product',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+    selector: 'app-product',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './product.component.html',
+    styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
   constructor(
