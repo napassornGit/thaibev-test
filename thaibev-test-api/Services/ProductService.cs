@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using thaibev_test_api.Data;
 using thaibev_test_api.Models;
 
@@ -8,7 +10,7 @@ public interface IProductService
 {
     Task<ProductResponse> GetAllProduct();
     Task<ProductResponse> CreateStudyPeriod(Product data);
-    Task<ProductResponse> DeleteProduct(Product data);
+    Task<ProductResponse> DeleteProduct(int productId);
 }
 
 public class ProductService(AppDbContext context) : IProductService
@@ -45,10 +47,18 @@ public class ProductService(AppDbContext context) : IProductService
             
             if (string.IsNullOrEmpty(message))
             {
+                var dupCode = _context.Products.Where(w => w.code == data.code.Trim()).FirstOrDefault();
+                if (dupCode != null)
+                {
+                    result.message = "มีรหัสสินค้านี้อยู่แล้ว";
+                    result.result = false;
+                    return result;
+                }
+                int nextId = _context.Products.AsEnumerable().Select(s => s.id).DefaultIfEmpty(0).Max().GetValueOrDefault() + 1;
                 _context.Products.Add(new Product
                 {
+                    id = nextId,
                     code = data.code,
-                    is_active = 1,
                     create_at = DateTime.Now,
                     create_by = "test"
                 });
@@ -72,35 +82,29 @@ public class ProductService(AppDbContext context) : IProductService
         }
     }
 
-    public async Task<ProductResponse> DeleteProduct(Product data) {
+    public async Task<ProductResponse> DeleteProduct(int productId) {
         ProductResponse result = new();
         try 
         {
             result.result = false;
+            string message = string.Empty;
 
-            //validate
-            string message = validateProduct(data);
-            
-            if (string.IsNullOrEmpty(message))
+            if (productId > 0)
             {
-                var product = await _context.Products.Where(w => w.id == data.id).FirstOrDefaultAsync();
+                var product = await _context.Products.Where(w => w.id == productId).FirstOrDefaultAsync();
                 if (product != null)
                 {
-                    product.is_active = 0;
-
-                    _context.Products.Update(product);
+                    _context.Products.Remove(product);
                     _context.SaveChanges();
 
                     result.result = true;
                     message = "ลบรายการสินค้าสำเร็จ";
                 }
-                else
-                {
-                    message = "ไม่พบรายการสินค้าที่ต้องการลบ";
-                }
+                else message = "ไม่พบรายการสินค้าที่ต้องการลบ";
             }
-            result.message = message;
+            else message = "ไม่พบรายการสินค้าที่ต้องการลบ";
 
+            result.message = message;
             return result;
         }
         catch (Exception)
@@ -115,11 +119,10 @@ public class ProductService(AppDbContext context) : IProductService
 
     private string validateProduct(Product data)
     {
-        string msg = string.Empty;
-        if (data == null) msg = "ไม่พบรายการสินค้า";
-        else if (string.IsNullOrEmpty(data.code)) msg = "กรุณาระบุรหัสสินค้า";
-        //else if (!string.IsNullOrEmpty(data.code) && )
+        if (data == null) return "ไม่พบรายการสินค้า";
+        else if (string.IsNullOrEmpty(data.code)) return "กรุณาระบุรหัสสินค้า";
+        else if (data.code.Length != 35 || !Regex.IsMatch(data.code, @"^[A-Z0-9]{5}(-[A-Z0-9]{5}){5}$")) return "รูปแบบรหัสสินค้าไม่ถูกต้อง";
 
-        return msg;
+        return string.Empty;
     }
 }

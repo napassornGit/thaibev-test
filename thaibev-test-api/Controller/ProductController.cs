@@ -22,7 +22,7 @@ public class ProductController(IProductService service) : ControllerBase
     }
 
     [HttpPost("CreateProduct")]
-    public async Task<IActionResult> CreateProduct(Product data)
+    public async Task<IActionResult> CreateProduct([FromBody] Product data)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -32,12 +32,12 @@ public class ProductController(IProductService service) : ControllerBase
     }
 
     [HttpPost("DeleteProduct")]
-    public async Task<IActionResult> DeleteProduct(Product data)
+    public async Task<IActionResult> DeleteProduct([FromQuery] int productId)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _service.DeleteProduct(data); 
+        var result = await _service.DeleteProduct(productId); 
         return Ok(result);
     }
 }
