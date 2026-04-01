@@ -37,6 +37,18 @@ Thumbs.db
 # ======================
 bin/
 obj/
+*.dll
+*.exe
+*.pdb
+
+# SQLite
+*.db
+*.sqlite
+*.log
+.env
+.DS_Store
+Thumbs.db
+appsettings.Development.json
 
 # database
 *.db
