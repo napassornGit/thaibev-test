@@ -40,6 +40,8 @@ obj/
 *.dll
 *.exe
 *.pdb
+backend/.vs/
+**/.vs/
 
 # SQLite
 *.db
