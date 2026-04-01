@@ -1,0 +1,130 @@
+<!-- <mat-dialog-content class="dialog-content" >
+    <div [formGroup]="personForm" class="row">
+        <div class="col-12">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <span class="text-danger fs-6">ชื่อ - สกุล</span>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="outline">
+                        <mat-label>ชื่อ</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>สกุล</mat-label>
+                        <input matInput formControlName="lastName">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <span class="text-danger fs-6">วันเกิด</span>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>วันเกิด</mat-label>
+                        <input matInput [max]="today" [matDatepicker]="birthDatePicker" formControlName="birthDate" (dateChange)="onBirthDateChange($event)" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #birthDatePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <span class="text-danger fs-6">อายุ</span>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>อายุ</mat-label>
+                        <input matInput formControlName="age" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <span class="text-danger fs-6">ที่อยู่</span>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="fill">
+                        <mat-label>ที่อยู่</mat-label>
+                        <textarea matInput [rows]="3" formControlName="address"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="secondary" (click)="onClose()">
+        ปิด
+    </button>
+    @if (!data?.id) {
+        <button mat-raised-button color="success" (click)="onSave()">
+            บันทึก
+        </button>
+    }
+</mat-dialog-actions> -->
+<mat-dialog-content class="dialog-content">
+  <div [formGroup]="personForm" class="form-container">
+
+    <!-- ชื่อ -->
+    <div class="form-row">
+        <label class="required">ชื่อ - สกุล *</label>
+        <div class="form-group-inline">
+            <mat-form-field appearance="outline" class="small-field">
+                <input matInput placeholder="ชื่อ" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="small-field">
+                <input matInput placeholder="สกุล" formControlName="lastName">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <!-- วันเกิด -->
+    <div class="form-row">
+        <label class="required">วันเกิด *</label>
+        <mat-form-field appearance="outline" class="small-field date-field">
+            <input matInput
+                [matDatepicker]="birthDatePicker"
+                formControlName="birthDate"
+                [max]="today"
+                (dateChange)="onBirthDateChange($event)"
+                readonly>
+            <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #birthDatePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <!-- อายุ -->
+    <div class="form-row">
+        <label class="required">อายุ *</label>
+        <div class="age-text">
+            {{ personForm.value.age }} ปี
+        </div>
+    </div>
+
+    <!-- ที่อยู่ -->
+    <div class="form-row">
+      <label class="required">ที่อยู่ *</label>
+      <mat-form-field appearance="outline" class="small-field full-width">
+        <textarea matInput rows="3" formControlName="address"></textarea>
+      </mat-form-field>
+    </div>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    @if (!data?.id) {
+        <button matButton="filled" (click)="onSave()">บันทึก</button>
+    }
+    <button matButton="filled" class="btn-danger" (click)="onClose()">{{(data?.id ? 'ปิด' : 'ยกเลิก')}}</button>
+</mat-dialog-actions>
