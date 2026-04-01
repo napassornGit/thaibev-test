@@ -82,6 +82,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
@@ -94,5 +100,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+app.Urls.Add("https://localhost:5001");
 
 app.Run();
