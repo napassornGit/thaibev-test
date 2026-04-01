@@ -49,13 +49,13 @@ frontend/
 ## Installation
 
 ### Backend
-cd backend
-dotnet restore
-dotnet run
+- cd backend
+- dotnet restore
+- dotnet run
 
 ### Frontend
-cd frontend
-npm install
-ng serve
+- cd frontend
+- npm install
+- ng serve
 
 ---
